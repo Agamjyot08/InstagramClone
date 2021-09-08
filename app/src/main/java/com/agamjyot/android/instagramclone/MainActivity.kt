@@ -2,39 +2,43 @@ package com.agamjyot.android.instagramclone
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.agamjyot.android.instagramclone.Fragments.HomeFragment
+import com.agamjyot.android.instagramclone.Fragments.NotificationsFragment
+import com.agamjyot.android.instagramclone.Fragments.ProfileFragment
+import com.agamjyot.android.instagramclone.Fragments.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
+    internal var selectedFragment: Fragment? = null
 
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
-
-                    return@OnNavigationItemSelectedListener true
+                    selectedFragment = HomeFragment()
                 }
                 R.id.nav_search -> {
-
-                    return@OnNavigationItemSelectedListener true
-
+                    selectedFragment = SearchFragment()
                 }
                 R.id.nav_add_post -> {
-
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.nav_notifications -> {
-
-                    return@OnNavigationItemSelectedListener true
-
+                    selectedFragment = NotificationsFragment()
                 }
                 R.id.nav_profile -> {
-
-                    return@OnNavigationItemSelectedListener true
-
-
+                    selectedFragment = ProfileFragment()
                 }
             }
 
+            if(selectedFragment != null) {
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragment_container,
+                    selectedFragment!!
+                ).commit()
+            }
             false
 
 
@@ -48,7 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-
+        supportFragmentManager.beginTransaction().replace(
+            R.id.fragment_container,
+            HomeFragment()
+        ).commit()
     }
 
 
